@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#030202" />
+  <title>Una nueva aventura · Invitación</title>
+  <meta name="description" content="Una invitación especial para compartir una aventura en el cine." />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💀</text></svg>" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./css/styles.css" />
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/",
+      "gsap": "https://cdn.jsdelivr.net/npm/gsap@3.12.5/index.js"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="film-grain" aria-hidden="true"></div>
+  <div class="fog fog--ground" aria-hidden="true"></div>
+  <div class="lightning-flash" aria-hidden="true"></div>
+
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+  </div>
+
+  <div class="scene-transition" aria-hidden="true"></div>
+
+  <button id="audio-toggle" class="audio-toggle" aria-label="Activar o desactivar sonido" title="Sonido">
+    <span class="audio-icon">🔇</span>
+  </button>
+
+  <!-- ESCENA 0: CARGA -->
+  <section class="scene scene--loading is-active" data-scene="0" aria-hidden="false">
+    <div class="sigil">💀</div>
+    <p class="loading-text">El Charro está despertando<span class="dots"><span>.</span><span>.</span><span>.</span></span></p>
+  </section>
+
+  <!-- ESCENA 1: INTRO -->
+  <section class="scene scene--intro" data-scene="1" aria-hidden="true">
+    <div class="scene-inner">
+      <p class="eyebrow" data-scramble="Una leyenda oscura te espera">Una leyenda oscura te espera</p>
+      <h1 class="title-split glitch-text" data-text="Hay historias que merecen una nueva aventura…">Hay historias que merecen una nueva aventura…</h1>
+      <button class="btn btn--primary magnetic" data-action="start">
+        <span>Descubrir invitación</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ESCENA 2: LA INVITACIÓN -->
+  <section class="scene scene--invite" data-scene="2" aria-hidden="true">
+    <div class="scene-inner card card--parchment tilt-card">
+      <p class="eyebrow" data-scramble="La función está por comenzar">La función está por comenzar</p>
+      <h2>¿Te gustaría acompañarme a una nueva aventura?</h2>
+      <div class="movie-title">
+        <span class="movie-kicker">función de terror</span>
+        <span class="movie-name">La venganza del Charro Negro</span>
+        <span class="movie-sub">Las Leyendas</span>
+      </div>
+      <p class="typed-text" data-typed="Quiero invitarte a ir conmigo al cine. Hay una película que me gustaría mucho ver contigo, y pensé que sería aún más especial si me acompañaras."></p>
+      <button class="btn btn--primary magnetic" data-action="next" data-to="3">
+        <span>Continuar</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ESCENA 3: LA PROPUESTA -->
+  <section class="scene scene--proposal" data-scene="3" aria-hidden="true">
+    <div class="scene-inner">
+      <h2 class="title-split title-split--big glitch-text" data-text="¿Vamos al cine juntos?">¿Vamos al cine juntos?</h2>
+      <p class="subtitle">Solo si tú quieres. Sin prisa, sin compromiso.</p>
+
+      <div class="choices" id="choices">
+        <button class="btn btn--primary magnetic btn-accept" data-action="accept">
+          <span>¡Me encantaría!</span>
+        </button>
+        <button class="btn btn--ghost magnetic" data-action="think">
+          <span>Déjame pensarlo</span>
+        </button>
+      </div>
+
+      <div class="response response--yes" id="response-yes" style="display:none;">
+        <div class="response-icon">🔥</div>
+        <h3>Gracias por decir que sí.</h3>
+        <p>Entonces ya somos dos con una aventura pendiente. Ahora solo falta el día.</p>
+        <button class="btn btn--primary magnetic" data-action="next" data-to="4">
+          <span>Elegir el día</span>
+        </button>
+      </div>
+
+      <div class="response response--maybe" id="response-maybe" style="display:none;">
+        <div class="response-icon">🌑</div>
+        <h3>Está perfecto.</h3>
+        <p>Tómate tu tiempo. La invitación se queda aquí esperándote, sin reloj.</p>
+        <button class="btn btn--ghost magnetic" data-action="back-to-proposal">
+          <span>Volver a la propuesta</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESCENA 4: LA FECHA -->
+  <section class="scene scene--date" data-scene="4" aria-hidden="true">
+    <div class="scene-inner card card--parchment tilt-card">
+      <p class="eyebrow" data-scramble="Tú decides el cuándo">Tú decides el cuándo</p>
+      <h2>Esta vez quiero que tú elijas el día.</h2>
+      <p class="typed-text" data-typed="Sé que tienes muchas cosas que hacer, así que dime qué fecha te queda mejor y nos ponemos de acuerdo."></p>
+      <button class="btn btn--primary magnetic" data-action="next" data-to="5">
+        <span>Continuar</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ESCENA 5: CIERRE -->
+  <section class="scene scene--outro" data-scene="5" aria-hidden="true">
+    <div class="scene-inner">
+      <div class="closing-sigil">💀</div>
+      <h2 class="title-split title-split--big glitch-text" data-text="Lo importante es compartir esta aventura contigo.">Lo importante es compartir esta aventura contigo.</h2>
+      <p class="subtitle">Gracias por llegar hasta aquí.</p>
+      <button class="btn btn--ghost magnetic" data-action="restart">
+        <span>Volver a ver la invitación</span>
+      </button>
+    </div>
+  </section>
+
+  <canvas id="sparkle-canvas" aria-hidden="true"></canvas>
+
+  <script src="https://cdn.jsdelivr.net/npm/howler@2.2.4/dist/howler.min.js"></script>
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
